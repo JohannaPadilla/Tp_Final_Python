@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+
+{% block title %}
+Mostrar Generos
+{% endblock %}
+
+
+{% block personalizable %}
+         <!-- Mostrar todos los animes-->
+         {% for genero in generos %}  
+         <div class="container-fluid">
+            <div class="card-body">
+               <div class="card-body div_style">
+                  <h1 style="text-decoration:underline;">Generos</h1> 
+                  <br>
+                                        
+
+                        Nombre del genero: {{genero.nombre}}
+                        <br>
+                        Detalle del genero: {{genero.detalle}}
+                        <br>
+                        <br>                  
+                        
+                  <button style="background-color:black ; border-radius: 10px;">
+                           <a href="{% url 'eliminar_genero' genero.nombre %} "><i class="bi bi-trash icon_style"></i></a>
+                  </button>
+                  
+               </div>
+            </div>
+         </div>
+         {% endfor %}
+{% endblock %}
