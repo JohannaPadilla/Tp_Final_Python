@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from UserAppFinal.forms import *
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 # Create your views here.
@@ -80,9 +81,9 @@ def editar_usuario(request):
 
             usuario.save()
 
-            messages.info(request, 'El usuario fue modificado satisfactoriamente.')
+            messages.success(request, 'El usuario fue modificado satisfactoriamente.')
         else:
-            messages.info(request, 'El usuario no puedo ser modificado')
+            messages.error(request, 'El usuario no puedo ser modificado')
 
         return redirect('App_Final_Inicio')
 
@@ -102,31 +103,101 @@ def editar_usuario(request):
 
     return render(request, 'UserAppFinal/formulario_user.html', contexto)
 
+@login_required
 def upload_avatar(request):
-    if request.method == "POST":
+    """Update user's avatar."""
 
+    user = request.user
+    # Para buscar si el usuario tiene avatar
+    try:
+        avatar = Avatar.objects.get(user=request.user.id)
+        avatar = avatar.imagen.url
+    except:
+        avatar = ''
+
+    if request.method != "POST":
+        formulario = AvatarForm()
+        
+    else:
         formulario = AvatarForm(request.POST, request.FILES)
 
         if formulario.is_valid():
+            avatars = Avatar.objects.filter(user=user)
 
-            data = formulario.cleaned_data
-            avatar = Avatar.objects.filter(user=data.get("usuario"))
+            if len(avatars) > 0:
+                new_avatar = avatars[0]
+                new_avatar.imagen = formulario.cleaned_data['imagen']
+                new_avatar.save()
 
-            if len(avatar) == 1:
-                avatar = avatar[0]
-                avatar.imagen = formulario.cleaned_data["imagen"]
-                avatar.save()
-
+                messages.success(request, 'El avatar fue modificado satisfactoriamente.')
             else:
-                avatar = Avatar(user=data.get("user"), imagen=data.get("imagen"))
-                avatar.save()
+                new_avatar = Avatar(user=user, imagen=formulario.cleaned_data['imagen'])
+                new_avatar.save()
 
+                messages.success(request, 'El avatar fue ingresado satisfactoriamente')
+
+        
         return redirect("App_Final_Inicio")
-
+    
     contexto = {
-        'form': AvatarForm(),
+        'form': AvatarForm,       
         'name_form': 'Avatar',
-        'name_submit': 'Cargar Avatar'
+        'name_submit': 'Cargar Avatar',
     }
 
     return render(request, 'UserAppFinal/formulario_user.html', contexto)
+
+
+@login_required
+def mensajes(request):
+    user = request.user
+
+    if request.method != 'POST':
+        # No data submited. Paso formulario vacio
+        form = MensajesForm()
+    
+    else:
+        # Data submitted. Paso formulario con datos ingresados por POST
+        form = MensajesForm(data=request.POST)
+        if form.is_valid():
+
+            mensajes = form.save(commit=False)
+            mensajes.envia = request.user
+            mensajes.save()
+
+            return redirect('mensajes_todos')
+    
+    context = {
+        'form': form,
+        'title': 'Nuevo mensaje',
+    }
+    return render(request, 'UserAppFinal/nuevo_mensaje.html', context)
+
+@login_required
+def mensajes_todos(request):
+    
+    user = request.user
+    
+    mensaje = Mensajes.objects.filter(Q(recibe=user) | Q(envia=user)).order_by('-enviado')
+    recibe = mensaje.filter(recibe=user).order_by('-enviado')
+    envia = mensaje.filter(envia=user).order_by('-enviado')
+
+    context = {
+        'title': 'Correo',
+        'user': user,
+        'mensajes': mensajes,
+        'recibe': recibe,
+        'envia':envia,
+    }
+    return render(request, 'UserAppFinal/mensajes_todos.html', context)
+
+@login_required
+def eliminar_mensaje(request, mensaje_id):
+
+
+        mensaje_eliminar = Mensajes.objects.get(id=mensaje_id)
+        mensaje_eliminar.delete()
+
+        messages.warning(request, f"El anime {mensaje_eliminar.mensaje} fue eliminado con exito")
+
+        return redirect('mensajes_todos')

@@ -5,38 +5,56 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'App_Final_Inicio' %}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'acerca' %}">Acerca de..</a></li>
+                <li class="nav-item"><a class="nav-link" style="color: white" href="{% url 'acerca' %}">Acerca de..</a></li>
                 {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Animes</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'anime_form' %}">Ingresar</a></li>
-                        <li><a class="dropdown-item" href="{% url 'mostrar_anime' %}">Mostrar todos</a></li>
-                        <li><a class="dropdown-item" href="{% url 'buscar_anime' %}">Buscar</a></li>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">Animes</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: aquamarine ;">
+                        <li><a class="dropdown-item" href="{% url 'resumen_anime' %}"><strong>Resumen</strong></a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><a class="dropdown-item" href="{% url 'anime_form' %}"><strong>Ingresar</strong></a></li>
+                        <li><a class="dropdown-item" href="{% url 'mostrar_anime' %}"><strong>Mostrar todos</strong></a></li>
+                        <li><a class="dropdown-item" href="{% url 'buscar_anime' %}"><strong>Buscar</strong></a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Autores</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'autor_form' %}">Ingresar</a></li>
-                        <li><a class="dropdown-item" href="{% url 'mostrar_autor' %}">Mostrar Todos</a></li>
-                        <li><a class="dropdown-item" href="{% url 'mostrar_autor' %}">Buscar</a></li>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">Autores</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: aquamarine ;">
+                        <li><a class="dropdown-item" href="{% url 'autor_form' %}"><strong>Ingresar</strong></a></li>
+                        <li><a class="dropdown-item" href="{% url 'mostrar_autor' %}"><strong>Mostrar Todos</strong></a></li>
+                        <!-- <li><a class="dropdown-item" href="{% url 'mostrar_autor' %}">Buscar</a></li> -->
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Generos</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'genero_form' %}">Ingresar</a></li>
-                        <li><a class="dropdown-item" href="{% url 'mostrar_genero' %}">Mostrar todos</a></li>
-                        <li><a class="dropdown-item" href="{% url 'mostrar_genero' %}">Buscar</a></li>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">Generos</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: aquamarine ;">
+                        <li><a class="dropdown-item" href="{% url 'genero_form' %}"><strong>Ingresar</strong></a></li>
+                        <li><a class="dropdown-item" href="{% url 'mostrar_genero' %}"><strong>Mostrar todos</strong></a></li>
+                        <!-- <li><a class="dropdown-item" href="{% url 'mostrar_genero' %}">Buscar</a></li> -->
                     </ul>
                 </li>
                 {% endif %}
             </ul>
             {% if user.is_authenticated %}
+            {% if user.avatar %}
             <form  class="d-flex">
-                <a href="{% url 'cargar_avatar' %}"><img height="40px" src="{{ user.avatar.imagen.url }}" alt=""></a>"
-                <a href="{% url 'editar_usuario' %}" style="text-decoration: none;"><h5 style="color:aquamarine ; padding: 0.1cm ; text-align: center ;"> Usuario: {{ user.username }} </h5></a>
+                <a href="{% url 'cargar_avatar' %}"><img style="height: 40px; border-radius: 50%; width: 40px;" src="{{ user.avatar.imagen.url }}" alt=""></a>"
+                {% else %}
+                <a href="{% url 'cargar_avatar' %}"><img height="50px" border-radius="50%" src="{% static 'assets/default.png' %}" alt=""></a>"
+                {% endif %}
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:aquamarine; border-style: solid; padding: 0.1cm; margin: 0.1cm; border-color: white; border-radius: 10px;"><strong> Usuario: {{ user.username }}</strong></a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: aquamarine ;">
+                            <li><a class="dropdown-item" href="{% url 'editar_usuario' %}"><strong>Editar Usuario</strong></a></li>
+                            <li><hr class="dropdown-divider"/></li>
+                            <li><a class="dropdown-item" href="{% url 'cargar_avatar' %}"><strong>Editar Avatar</strong></a></li>
+                            <li><a class="dropdown-item" href="{% url 'mensajes_todos' %}"><strong>Mis Mensajes</strong></a></li>
+                            <li><a class="dropdown-item" href="{% url 'nuevo_mensaje' %}"><strong>Mensaje Nuevo</strong></a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- <a href="{% url 'editar_usuario' %}" style="text-decoration: none;"><h5 style="color:aquamarine ; padding: 0.1cm ; text-align: center ;"> Usuario: {{ user.username }} </h5></a> -->
                 <button style="background-color:black ;">
                     <a class="jp" style="font-size:0.5cm ;padding: 0.1cm;"  href="{% url 'salir_UserAppFinal' %}">Salir</a>
                 </button>

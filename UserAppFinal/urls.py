@@ -1,4 +1,5 @@
 from atexit import register
+from unicodedata import name
 from django.urls import path
 from UserAppFinal.views import *
 from django.contrib.auth.views import LogoutView
@@ -8,5 +9,8 @@ urlpatterns = [
     path('registro/', registro, name='register_appfinal'),
     path('salir/', LogoutView.as_view(template_name='UserAppFinal/salir.html'), name='salir_UserAppFinal'),
     path('editar/', editar_usuario, name='editar_usuario'),
-    path('avatar/', upload_avatar, name='cargar_avatar')
+    path('avatar/', upload_avatar, name='cargar_avatar'),
+    path('mensajes_nuevo/', mensajes, name="nuevo_mensaje"),
+    path('mensajes_todos/', mensajes_todos, name="mensajes_todos"),
+    path('eliminar_mensaje/<mensaje_id>', eliminar_mensaje, name="eliminar_mensaje")
 ]

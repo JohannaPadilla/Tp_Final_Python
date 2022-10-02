@@ -30,6 +30,15 @@ def acerca(request):
     contexto = {}
     return render(request, 'App_Final/acerca.html', contexto)
 
+def resumen_anime(request):
+    animes = Anime.objects.all()
+
+    contexto = {
+        'animes': animes
+    }
+
+    return render(request, 'App_Final/resumen_anime.html', contexto)
+
 # Vistar de formularios
 @login_required
 def animeformulario(request):
@@ -48,10 +57,11 @@ def animeformulario(request):
                           origen=data.get('origen'),
                           personaje_principal=data.get('personaje_principal'),
                           sinopsis=data.get('sinopsis'),
-                          autor=data.get('nombre_editorial'),
-                          genero=data.get('nombre'),
+                          autor=data.get('autor'),
+                          genero=data.get('genero'),
                           imagen_del_anime=data.get('imagen_del_anime'),
-                          puntuacion=data.get('puntuacion'))
+                          puntuacion=data.get('puntuacion'),
+                          creador=request.user)
             anime_1.save()
 
             messages.success(request, f"El anime {anime_1.titulo} fue creado con exito")
@@ -159,12 +169,12 @@ def buscar_anime_get(request):
 def buscar_anime(request):
     
     contexto = {
-        'form': Animebuscarform(),
+        'form': Animebuscarform,
         'name_submit': 'Buscar Anime',
         'name_form': 'Escribe el nombre del anime que buscas'
     }
 
-    return render(request, 'App_Final/formulario_general.html', contexto)
+    return render(request, 'App_Final/mostrar_anime.html', contexto)
 
 # Eliminar Datos
 @login_required
@@ -183,7 +193,7 @@ def eliminar_autor(request, nombre_editorial):
     autor_eliminar = Autor.objects.get(nombre_editorial=nombre_editorial)
     autor_eliminar.delete()
 
-    messages.info(request, f"El autor {autor_eliminar.nombre_editorial} fue eliminado con exito")
+    messages.success(request, f"El autor {autor_eliminar.nombre_editorial} fue eliminado con exito")
 
     return redirect("mostrar_autor")
 
@@ -193,13 +203,14 @@ def eliminar_genero(request, nombre):
     genero_eliminar = Genero.objects.get(nombre=nombre)
     genero_eliminar.delete()
 
-    messages.info(request, f"El genero {genero_eliminar.nombre} fue eliminado con exito")
+    messages.success(request, f"El genero {genero_eliminar.nombre} fue eliminado con exito")
 
     return redirect("mostrar_genero")
 
 # Editar Datos
 @login_required
 def editar_anime(request, titulo):
+
     anime_editar = Anime.objects.get(titulo=titulo)
 
     if request.method == 'POST':
@@ -210,12 +221,12 @@ def editar_anime(request, titulo):
             data = mi_formulario.cleaned_data
 
             anime_editar.titulo = data.get('titulo')
-            anime_editar.autor = data.get('nombre_editorial')
-            anime_editar.fecha_de_creacio = data.get('fecha_de_creacion')
+            anime_editar.autor = data.get('autor')
+            anime_editar.fecha_de_creacion = data.get('fecha_de_creacion')
             anime_editar.episodios = data.get('episodios')
             anime_editar.temporadas = data.get('temporadas')
             anime_editar.origen = data.get('origen')
-            anime_editar.genero = data.get('nombre')
+            anime_editar.genero = data.get('genero')
             anime_editar.personaje_principal = data.get('personaje_principal')
             anime_editar.sinopsis = data.get('sinopsis')
             anime_editar.imagen_del_anime = data.get('imagen_del_anime')

@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+
+{% block personalizable %}
+
+<div class="container-fluid">
+    <div class="card-body">
+       <div class="div_style">
+          <h5 style="text-decoration:underline; text-align: center; font-size: 1.5cm ;">{{title}}</h5> 
+          <br>
+       </div>
+    </div>
+ </div>  
+
+{% if form.errors  %}
+<h5 style="color: red">Hubo un problema con los datos.</h5>
+{% endif %}
+
+<!-- Formulario nuevo mensage -->
+<div class="container-fluid">
+    <div class="card-body">
+    <form action="{% url 'nuevo_mensaje' %}" method="POST">
+        {% csrf_token %}
+        <table class="table table-striped table-hover" style="display: block ; margin-left: 0.5cm;">
+            {{form.as_table}}
+        </table>
+        
+        <!-- Botones -->
+        <div style="text-align:left ; margin-bottom: 2cm; margin-top: 2cm; margin-left: 0.5cm;">
+            <input button type="submit" class="btn btn-primary btn-lg" style="background-color: aquamarine ; color: black ; border-color:aquamarine ;" value="Enviar">
+            <a button type="button" class="btn btn-secondary btn-lg" style="background-color: black ; color: aquamarine; border-color: black;" href=" {% url 'mensajes_todos' %} ">Volver</button></a>
+        </div>
+    </form>
+    </div>
+</div>
+
+{% endblock %}  

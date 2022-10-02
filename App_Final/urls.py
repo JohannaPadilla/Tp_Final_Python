@@ -7,6 +7,7 @@ urlpatterns = [
     path('terminos/', terminos, name='terminos'),
     path('privacidad/', privacidad, name='privacidad'),
     path('acerca/', acerca, name='acerca'),
+    path('resumen_anime/', resumen_anime, name='resumen_anime'),
     path('anime_formulario/', animeformulario, name='anime_form'),
     path('autor_formulario/', autorformulario, name='autor_form'),
     path('genero_formulario/', generoformulario, name='genero_form'),

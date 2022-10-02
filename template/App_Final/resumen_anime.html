@@ -4,54 +4,53 @@
 Mostrar Anime
 {% endblock %}
 
-
 {% block personalizable %}
-         <!-- Mostrar todos los animes-->
-
-         {% for anime in animes %}
-         <div class="container-fluid">
-            <div class="card-body">
-               <div class="card-body div_style">                  
-                  <button style="background-color:black ; border-radius: 10px;">
-                     <a href="{% url 'eliminar_anime' anime.titulo %} "><i class="bi bi-trash icon_style"></i></a>
-                  </button>
-                  <button style="background-color:black ; border-radius: 10px;">
-                     <a href="{% url 'editar_anime' anime.titulo %} "><i class="bi bi-pencil-square icon_style"></i></a>
-                  </button>
-                  <h1 style="text-decoration:underline; text-align: center;">{{anime.titulo}}</h1> 
-                  <br>
-                  <div class="row">
-                     <div class="col-md" style="text-align:center ;">
-                        El creador es: {{anime.autor}}
-                        <br>
-                        Fecha de lanzamiento: {{anime.fecha_de_creacion}}
-                        <br> 
-                        Cantidad de episodios: {{anime.episodios}}
-                        <br> 
-                        Cantidad de temporadas: {{anime.temporadas}}
-                        <br> 
-                        Pais de origen: {{anime.origen}}
-                        <br> 
-                        Genero: {{anime.genero}}
-                        <br> 
-                        El personaje principal es: {{anime.personaje_principal}}
-                        <br>
-                     </div>
-                     <div class="col-md">
-                        Historia: {{anime.sinopsis}}
-                     </div>
-                     <div class="col-md">
-                        <img class="card-img-top" style="height: 400px;" src="{{anime.imagen_del_anime.url}}" alt="..." />
-                     </div>
-                  </div>
-                  <br>
-                  <br>
-                  <h2 style="text-align: center ;"><span style="background-color: darksalmon ; color: black ; border-radius: 10px ; font-family: 'Times New Roman', Times, serif ;"><strong>Puntuacion: {{anime.puntuacion}}</strong> </span></h2>
-                  <br>
-                  <br>
-               </div>
+<section class="py-5">
+    <header class="bg-dark py-1">
+        <div class="container px-1 px-lg-1 my-1">
+            <div class="text-center text-white">
+                <h1 class="display-6 fw-bolder">Mis animes</h1>
             </div>
-         </div>
+        </div>
+    </header>
+    
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-5 row-cols-md-6 row-cols-xl-4 justify-content-center">
+                {% for anime in animes %}
+                <div class="col mb-5">                    
+                    <div class="card h-auto w-auto">                    
+                        <!-- Sale badge-->
+                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{anime.genero}}</div>
+                        <!-- Product image-->
+                        <img class="card-img-top" style="height: 400px;" src="{{anime.imagen_del_anime.url}}" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">{{anime.titulo}}</h5>
+                                <!-- Product price-->
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill"> Puntuacion: {{anime.puntuacion}} </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: center ;">
+                        <form action="{% url 'buscar_anime_get' %}" method="GET"> 
+                            {% csrf_token %}
+                            <!-- <input type="text" > -->
+                            <input type="hidden" name="titulo" id="titulo" value="{{anime.titulo}}">
+                            <input type="submit" value="Ver mas">
+                        </form>
+                    </div>
+                        <!-- Product actions-->
+                        <!-- <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{anime.titulo.url}}">Ver Anime</a></div>
+                        </div> -->
+                    </div>
+                </div>
             {% endfor %}
-
-{% endblock %}
+            </div>
+        </div>
+    </section>
+ 
+{% endblock %}    

@@ -15,11 +15,13 @@
             <form action="" method="POST" enctype="multipart/form-data"> 
                
             {% csrf_token %}
-
-               {{ form.as_p }}
-      
+            
+            <table class="table table-hover" style="display: flex ; margin-left: 0.5cm; justify-content: center;">
+               {{ form.as_table }}
+            </table>
+            <div style="display:flex ; justify-content: center;">
                <input type="submit" value="Enviar" style="text-align: center ; text-decoration:underline ; background-color: black ; color:aquamarine; padding: 0.2cm ; border-radius: 20px ;" >
-
+            </div>
             </form>            
          </div>
 

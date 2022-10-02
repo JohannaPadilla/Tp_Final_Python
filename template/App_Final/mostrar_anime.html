@@ -5,8 +5,34 @@ Mostrar Anime
 {% endblock %}
 
 
+
 {% block personalizable %}
          <!-- Mostrar todos los animes-->
+         <div class="container-fluid">
+            <div class="card-body">
+               <div class="card-body div_style">
+                  <h1 style="text-decoration:underline; text-align: center; font-size: 2cm ;">ANIMES</h1> 
+                  <br>
+               </div>
+            </div>
+         </div>         
+         
+         <!-- Formulario busqueda de anime-->
+         <div class="container-fluid">
+            <div class="card-body">
+               <div class="card-body div_style">
+                  <h4 style="text-align: center;"> <span style="text-decoration:underline ; background-color: black ; color:aquamarine; padding: 0.3cm ; border-radius: 20px ;"> Escribe el nombre del anime que buscas</span> </h4> 
+                  <br>
+                  <div style="text-align: center ;">
+                     <form action="{% url 'buscar_anime_get' %}" method="GET"> 
+                     {% csrf_token %}
+                     <input type="text" name="titulo" id="titulo">
+                     <input type="submit" value="Buscar">
+                     </form>
+                  </div>
+               </div>
+            </div>  
+      </div>
 
          {% for anime in animes %}
          <div class="container-fluid">
@@ -21,24 +47,24 @@ Mostrar Anime
                   <h1 style="text-decoration:underline; text-align: center;">{{anime.titulo}}</h1> 
                   <br>
                   <div class="row">
-                     <div class="col-md" style="text-align:center ;">
-                        El creador es: {{anime.autor}}
+                     <div class="col-md" style="text-align:center ; font-size: 0.5cm;">
+                        <strong>El creador es:</strong> {{anime.autor}}
                         <br>
-                        Fecha de lanzamiento: {{anime.fecha_de_creacion}}
+                        <strong>Fecha de lanzamiento:</strong> {{anime.fecha_de_creacion}}
                         <br> 
-                        Cantidad de episodios: {{anime.episodios}}
+                        <strong>Cantidad de episodios:</strong> {{anime.episodios}}
                         <br> 
-                        Cantidad de temporadas: {{anime.temporadas}}
+                        <strong>Cantidad de temporadas:</strong> {{anime.temporadas}}
                         <br> 
-                        Pais de origen: {{anime.origen}}
+                        <strong>Pais de origen:</strong> {{anime.origen}}
                         <br> 
-                        Genero: {{anime.genero}}
+                        <strong>Genero:</strong> {{anime.genero}}
                         <br> 
-                        El personaje principal es: {{anime.personaje_principal}}
+                        <strong>El personaje principal es:</strong> {{anime.personaje_principal}}
                         <br>
                      </div>
-                     <div class="col-md">
-                        Historia: {{anime.sinopsis}}
+                     <div class="col-md" style="font-size: 0.5cm;">
+                        <strong>Historia:</strong> {{anime.sinopsis}}
                      </div>
                      <div class="col-md">
                         <img class="card-img-top" alt="Funny image" style="height: 450px ; width: 400px; border-radius: 50px ; margin-left: 2cm; border-style: solid; border-color: aquamarine;"src="{{anime.imagen_del_anime.url}}" alt="..." />

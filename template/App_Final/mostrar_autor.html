@@ -7,18 +7,25 @@ Mostrar Autores
 
 {% block personalizable %}
          <!-- Mostrar todos los animes-->
-
+         <div class="container-fluid">
+            <div class="card-body">
+               <div class="card-body div_style">
+                  <h1 style="text-decoration:underline; text-align: center; font-size: 2cm ;">AUTORES</h1> 
+                  <br>
+               </div>
+            </div>
+         </div>
          {% for autor in autores %}
          <div class="container-fluid">
             <div class="card-body">
                <div class="card-body div_style">
-                  <h1 style="text-decoration:underline;">Autor</h1> 
+                  <h1 style="text-decoration:underline;">{{autor.nombre_editorial}}</h1> 
                   <br>
-                        Nombre: {{autor.nombre_editorial}}
-                        <br>
-                        Nacionalidad: {{autor.nacionalidad}}
+                        <!-- Nombre: {{autor.nombre_editorial}}
+                        <br> -->
+                        <strong>Nacionalidad:</strong> {{autor.nacionalidad}}
                         <br> 
-                        Bibliografia: {{autor.bibliografia}}
+                        <strong>Bibliografia:</strong>  {{autor.bibliografia}}
                         <br> 
                         <br>
                      <button style="background-color:black ; border-radius: 10px;">

@@ -7,17 +7,25 @@ Mostrar Generos
 
 {% block personalizable %}
          <!-- Mostrar todos los animes-->
+         <div class="container-fluid">
+            <div class="card-body">
+               <div class="card-body div_style">
+                  <h1 style="text-decoration:underline; text-align: center; font-size: 2cm ;">Generos</h1> 
+                  <br>
+               </div>
+            </div>
+         </div>
          {% for genero in generos %}  
          <div class="container-fluid">
             <div class="card-body">
                <div class="card-body div_style">
-                  <h1 style="text-decoration:underline;">Generos</h1> 
+                  <h1 style="text-decoration:underline;">{{genero.nombre}}</h1> 
                   <br>
                                         
-
+<!-- 
                         Nombre del genero: {{genero.nombre}}
-                        <br>
-                        Detalle del genero: {{genero.detalle}}
+                        <br> -->
+                        <strong>Detalle del genero:</strong>  {{genero.detalle}}
                         <br>
                         <br>                  
                         
